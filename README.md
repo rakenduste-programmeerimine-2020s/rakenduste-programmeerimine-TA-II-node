@@ -5,3 +5,4 @@ To run project locally clone https://github.com/rakenduste-programmeerimine-2020
 ## Team
 - Romil Rõbtšenkov
 - Los Pollos Hermanos (Petrov)
+- Georg-Henri Allas
