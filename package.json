@@ -1,0 +1,20 @@
+{
+  "name": "rakenduste-programmeerimine-ta-i-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rakenduste-programmeerimine-2020s/rakenduste-programmeerimine-TA-I-node.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rakenduste-programmeerimine-2020s/rakenduste-programmeerimine-TA-I-node/issues"
+  },
+  "homepage": "https://github.com/rakenduste-programmeerimine-2020s/rakenduste-programmeerimine-TA-I-node#readme"
+}
