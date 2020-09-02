@@ -4,3 +4,4 @@ To run project locally clone https://github.com/rakenduste-programmeerimine-2020
 
 ## Team
 - Romil Rõbtšenkov
+- Andreas Kuuskaru
