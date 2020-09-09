@@ -14,8 +14,8 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
             console.log('App started on port ' + listener.address().port)
         )
     })
-    .catch(() => {
-        console.error('Unable to connect to MongoDB')
+    .catch((error) => {
+        console.log(error)
         process.exit(1)
     })
 

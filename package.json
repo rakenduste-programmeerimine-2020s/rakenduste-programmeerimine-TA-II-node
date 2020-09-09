@@ -19,12 +19,13 @@
   },
   "homepage": "https://github.com/rakenduste-programmeerimine-2020s/rakenduste-programmeerimine-TA-I-node#readme",
   "devDependencies": {
+    "koa": "^2.13.0",
+    "mongoose": "^5.10.4",
     "nodemon": "^2.0.4"
   },
   "dependencies": {
-    "koa": "^2.13.0",
     "koa-body": "^4.2.0",
-    "koa-router": "^9.4.0",
-    "mongoose": "^5.10.3"
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^9.4.0"
   }
 }
