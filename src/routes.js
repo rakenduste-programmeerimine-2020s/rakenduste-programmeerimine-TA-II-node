@@ -1,22 +1,34 @@
-const Koa = require('koa')
+
 const Router = require('koa-router');
-const bodyParser = require('koa-body');
-const app = new Koa()
-const router = new Router();
 
+const router = new Router()
 
-
-
-
-
-
-//router.use(bodyParser())
 const Topic = require('./models/topic')
 
 router.get('/health', (context) => {
+    console.log('korras')
     context.status = 200;
     context.body = 'OK';
 });
+
+router.get('/topics/:id', async (context) => {
+    const {name} = context.body;
+    const topics = await Topic.findOne({name: {name}});
+
+    context.status = 200;
+    context.body = topics
+
+    return;
+});
+
+router.put('/topics/update/:id', async (ctx) => {
+    await console.log(ctx);
+    Topic.findByIdAndUpdate({id: ctx.request.body._id}, {name: ctx.request.body.name})
+    .catch((error) => {
+        console.log(error)
+    })
+})
+   
 
 router.get('/topics', async (context) => {
     const topics = await Topic.find({});
@@ -25,36 +37,29 @@ router.get('/topics', async (context) => {
     context.body = topics
 
     return;
-});
-
-router.get('/topics/:name', async (context) => {
-    const topics = await Topic.find({name})
-
-    context.status = 200
-    context.body = topics
-
-    return;
 })
 
-router.put('/topics/:name', async (context) => {
-    const topics = await Topic.find({name})
+router.post('/topics', async (ctx) => {
+    console.log(ctx)
 
-})
-router.use(bodyParser());
-router.post('/topics', async (context) => {
-    let name = context.request.body
-    console.log(name)
-    const newTopic = new Topic({name:{name}})
-    //const newTopic = new topicMain({name: this.name})
+    const { name } = ctx.request.body
+    newPost = {
+        name: {name}
+    }
+
+    let newTopic = new Topic(newPost)
     
-    const topic = await newTopic.save()
-
-    context.status = 201;
-    context.body = topic;
+   
+    newTopic.save()
+            .then(() => {
+                console.log("Andmed salvestatud")
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+       
 
     return;
-});
-app
-  .use(router.routes())
-  .use(router.allowedMethods());
+})
+
 module.exports = router;

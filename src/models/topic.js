@@ -3,7 +3,8 @@ const Schema = mongoose.Schema
 
 const TopicSchema = new Schema(
     {
-        name: {type: String, required: true },
+        id: {},
+        name: {type: String, required: true},
         viewCount: {type: Number, default: 0 }
     },
     {

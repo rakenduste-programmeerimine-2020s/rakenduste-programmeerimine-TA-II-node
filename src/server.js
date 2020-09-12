@@ -1,12 +1,14 @@
 const Koa = require('koa');
 const mongoose = require('mongoose');
-
 const router = require('./routes');
 
 
 const app = new Koa();
-app.use(require('koa-body')());
+
+app.use(require('koa-bodyparser')({multipart:true}))
 app.use(router.routes());
+
+
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -19,5 +21,6 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
         process.exit(1)
     })
 
-//    app.proxy = true;
+
+app.proxy = true;
 module.exports = app;
