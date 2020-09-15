@@ -4,8 +4,8 @@ const router = require('./routes');
 
 const app = new Koa();
 
-//app.use(require('koa-body')());
-app.use(require('koa-bodyparser')({multipart:true}));
+app.use(require('koa-body')({multipart:true}));
+//app.use(require('koa-bodyparser')({multipart:true}));
 app.use(router.routes());
 
 //mongoose.set('debug', true)
@@ -16,10 +16,9 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
             console.log('App started on port ' + listener.address().port)
         )
     })
-    .catch((error) => {
+    .catch(() => {
         console.error('Unable to connect to MongoDB')
-        console.log(error);
         process.exit(1)
     })
-app.proxy = true;
+
 module.exports = app;

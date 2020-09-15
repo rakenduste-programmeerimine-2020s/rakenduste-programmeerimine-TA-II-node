@@ -10,5 +10,5 @@ const TopicSchema = new Schema(
         timestamps: true
     }
 )
-
+mongoose.set('useFindAndModify', false);
 module.exports = mongoose.model('two/Topic', TopicSchema)
