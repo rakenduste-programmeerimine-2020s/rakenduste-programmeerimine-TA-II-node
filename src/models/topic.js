@@ -5,6 +5,8 @@ const TopicSchema = new Schema(
   {
     id: {},
     name: { type: String, required: true },
+    age: { type: Number, required: true },
+    desc: { type: String, default: 'no description' },
     viewCount: { type: Number, default: 0 }
   },
   {

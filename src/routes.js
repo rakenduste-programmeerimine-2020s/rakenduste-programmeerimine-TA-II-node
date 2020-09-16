@@ -1,80 +1,103 @@
 const Router = require('koa-router')
-const Joi = require('Joi')
-const validate = require('koa-joi-validate')
+const topicVal = require('./validate')
 const router = new Router()
 
 const Topic = require('./models/topic')
 
-const postValidator = validate({
-  body: {
-    name: Joi.string().required()
-  }
-})
-router.get('/health', (context) => {
+router.get('/health', (ctx) => {
   console.log('korras')
-  context.status = 200
-  context.body = 'OK'
+  ctx.status = 200
+  ctx.body = 'OK'
 })
 
-router.get('/topics/:id', async (context) => {
-  console.log(context.route)
-  context.body = context.params.id
-  const topics = await Topic.findOne({ _id: context.body })
-
-  context.status = 200
-  context.body = topics
-})
-
-router.put('/topics/update/', async (ctx) => {
-  console.log(ctx.request.body.name)
-  await Topic.findByIdAndUpdate(
-    { _id: ctx.request.body._id },
-    { name: ctx.request.body.name }
-  ).catch((error) => {
-    console.log(error)
-  })
-})
-
-router.get('/topics', async (context) => {
+router.get('/topics', async (ctx) => {
   const topics = await Topic.find({})
+    .then(() => {
+      ctx.status = 200
+      ctx.body = topics
+    })
+    .catch((error) => {
+      ctx.status = 400
+      ctx.body = error
+    })
+})
 
-  context.status = 200
-  context.body = topics
+router.get('/topics/:id', async (ctx) => {
+  console.log(ctx.route)
+  ctx.body = ctx.params.id
+  const topics = await Topic.findOne({ _id: ctx.body })
+    .then(() => {
+      ctx.status = 200
+      ctx.body = topics
+    })
+    .catch((error) => {
+      ctx.status = 400
+      ctx.body = error
+    })
+})
+
+router.put('/topics/:id', async (ctx) => {
+  console.log(ctx.request.body.name)
+
+  const { error } = await topicVal.validate(ctx.request.body)
+  if (error) {
+    console.log(error)
+    ctx.status = 400
+    const { message } = error
+    ctx.body = message
+    return
+  }
+
+  await Topic.update({ _id: ctx.request.params.id }, ctx.request.body)
+    .then(() => {
+      ctx.status = 201
+      ctx.body = 'Update successful'
+    })
+    .catch((error) => {
+      console.log(error)
+      ctx.body = error
+      ctx.status = 400
+    })
 })
 
 router.post('/topics', async (ctx) => {
   console.log(ctx.request.body)
-  const { name } = ctx.request.body
-  const newTopic = new Topic({ name })
 
-  const topic = await newTopic.save() // asünkroonne
-  /* sünkroonne
+  const { error } = await topicVal.validate(ctx.request.body)
+  if (error) {
+    console.log(error)
+    ctx.status = 400
+    const { message } = error
+    ctx.body = message
+    return
+  }
 
-            .then((topic) => {
-                console.log("Andmed salvestatud")
-                ctx.status = 201
-                ctx.body = topic
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-            */
-  ctx.status = 201
-  ctx.body = topic
+  const newTopic = new Topic(ctx.request.body)
+  await newTopic.save() // asünkroonne
+    .then(() => {
+      ctx.status = 201
+      ctx.body = 'Data posted'
+    })
+    .catch((error) => {
+      ctx.status = 400
+      ctx.body = error
+    })
 })
 
 router.del('/topics/:id', async (ctx) => {
   ctx.body = ctx.params.id
-  // let deleteTopic = new Topic({_id})
-  Topic.deleteOne({ _id: ctx.body })
+
+  await Topic.deleteOne({ _id: ctx.body })
     .then(() => {
-      console.log(ctx.body)
-      console.log('Andmed kustutatud')
+      ctx.status = 200
+      ctx.body = 'Data deleted'
     })
     .catch((error) => {
       console.log(error)
+      ctx.body = error
       ctx.status = 404
     })
+  ctx.body = 'Data deleted'
   ctx.status = 200
 })
 
