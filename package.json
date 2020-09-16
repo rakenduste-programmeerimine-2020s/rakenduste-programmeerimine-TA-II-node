@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/server.js",
-    "dev": "nodemon -L src/server.js"
+    "dev": "nodemon --inspect=0.0.0.0:9002 -L src/server.js",
+    "lint": "eslint src"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,12 @@
   },
   "homepage": "https://github.com/rakenduste-programmeerimine-2020s/rakenduste-programmeerimine-TA-II-node#readme",
   "devDependencies": {
+    "eslint": "^7.9.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "koa": "^2.13.0",
     "mongoose": "^5.10.4",
     "nodemon": "^2.0.4"
