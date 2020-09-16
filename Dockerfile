@@ -1,4 +1,4 @@
-FROM node:14.3-alpine
+FROM node:14.9.0
 
 ENV HOME=/home/node
 
